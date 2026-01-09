@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Fire Scrim Registration</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>🎮 Free Fire Scrim Series 🎮</h1>
+  <p id="slotText">Slots Available: <b id="slots">12</b></p>
+</header>
+
+<!-- SCRIM DETAILS -->
+<section class="scrim-details">
+  <h2>🎮 FREE FIRE SCRIM SERIES 🎮</h2>
+  <p class="tagline">Play • Win • Repeat</p>
+  <div class="grid">
+
+    <div class="card glow">
+      <h3>💥 Entry Fee</h3>
+      <p>₹20 / ₹25 / ₹30</p>
+    </div>
+
+    <div class="card glow">
+      <h3>💰 Prize Pool</h3>
+      <p>₹200 / ₹250 / ₹300</p>
+    </div>
+
+    <div class="card">
+      <h3>🏆 Winning Prizes</h3>
+      <ul>
+        <li>🥇 1st: ₹80 / ₹100 / ₹120</li>
+        <li>🥈 2nd: ₹60 / ₹75 / ₹90</li>
+        <li>🥉 3rd: ₹40 / ₹50 / ₹60</li>
+        <li>🏅 4th: 1 Lobby Free Entry</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🕒 Match Schedule</h3>
+      <div class="time-box">
+        <span>12:00 PM</span>
+        <span>3:00 PM</span>
+        <span>9:00 PM</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="format">
+    🔘 <b>Format:</b> Best of 3 / 6 Matches (B2B)
+  </div>
+</section>
+
+<!-- ENTRY FEE SELECTION -->
+<section class="box">
+  <h2>Select Entry Fee</h2>
+  <button onclick="selectFee(20)">₹20 Entry</button>
+  <button onclick="selectFee(25)">₹25 Entry</button>
+  <button onclick="selectFee(30)">₹30 Entry</button>
+</section>
+
+<!-- TEAM DETAILS -->
+<section class="box hidden" id="details">
+  <h2>Team Details</h2>
+  <input id="team" placeholder="Team Name">
+  <input id="wp" placeholder="WhatsApp Number">
+  <button onclick="goPayment()">Submit</button>
+</section>
+
+<!-- SUCCESS MESSAGE -->
+<section class="box hidden" id="success">
+  <h2 class="success">✅ Registration Submitted Successfully!</h2>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
