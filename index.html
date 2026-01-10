@@ -3,38 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Fire Scrim Registration</title>
-   <meta property="og:title" content="Free Fire Scrim Series 🎮 - Register Now!">
-  <meta property="og:description" content="Join the ultimate Free Fire Scrim Series! Play, win, and compete with top teams. Entry Fee: ₹20 / ₹25 / ₹30. Schedule: 12 PM, 3 PM, 9 PM.">
-  <meta property="og:image" content="https://usercreator005.github.io/Scrim-Registration/images/ffss.png">
-  <meta property="og:url" content="https://usercreator005.github.io/Scrim-Registration/">
-  <meta property="og:type" content="website">
+<title>Free Fire Scrim Series 🎮</title>
 
-  <!-- Twitter Card (Optional for other social media) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Free Fire Scrim Series 🎮 - Register Now!">
-  <meta name="twitter:description" content="Join the ultimate Free Fire Scrim Series! Play, win, and compete with top teams. Entry Fee: ₹20 / ₹25 / ₹30. Schedule: 12 PM, 3 PM, 9 PM.">
-  <meta name="twitter:image" content="https://usercreator005.github.io/Scrim-Registration/images/ffss.png">
+<!-- Open Graph -->
+<meta property="og:title" content="Free Fire Scrim Series 🎮 - Register Now">
+<meta property="og:description" content="Join Free Fire Scrim Series. Entry ₹20 / ₹25 / ₹30. Limited slots per lobby. Play • Win • Repeat">
+<meta property="og:image" content="images/ffss.png">
+<meta property="og:url" content="https://usercreator005.github.io/Scrim-Registration/">
+<meta property="og:type" content="website">
+
 <link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
-<script>eruda.init();</script>
 </head>
+
 <body>
 
 <header>
-  <div class="logo-container">
-    <img src="ffss.png" alt="FF Scrim Logo" class="logo">
-    <h1>🎮 Free Fire Scrim Series 🎮</h1>
-  </div>
-  <p id="slotText">Slots Available: <b id="slots">12</b></p>
+  <img src="ffss.png" class="logo">
+  <h1>Free Fire Scrim Series 🎮</h1>
+  <p id="slotText">Select match time to continue</p>
 </header>
 
-<!-- SCRIM DETAILS -->
-<section class="scrim-details">
-  <h2>🎮 FREE FIRE SCRIM SERIES 🎮</h2>
-  <p class="tagline">Play • Win • Repeat</p>
-  <div class="grid">
+<!-- MATCH SELECTION -->
+<section class="box">
+  <h2>Select Match Time</h2>
+  <div class="card-grid" id="matchGrid">
+    <div class="card" onclick="selectMatch('12:00 PM')">12:00 PM</div>
+    <div class="card" onclick="selectMatch('3:00 PM')">3:00 PM</div>
+    <div class="card" onclick="selectMatch('9:00 PM')">9:00 PM</div>
+  </div>
+</section>
 
+<!-- ENTRY FEE SELECTION -->
+<section class="box hidden" id="feeBox">
+  <h2>Select Entry Fee</h2>
+  <div class="card-grid" id="feeGrid">
+    <div class="card" onclick="selectFee(20)">₹20 Lobby <br><span class="slot-count" id="slot20"></span></div>
+    <div class="card" onclick="selectFee(25)">₹25 Lobby <br><span class="slot-count" id="slot25"></span></div>
+    <div class="card" onclick="selectFee(30)">₹30 Lobby <br><span class="slot-count" id="slot30"></span></div>
+  </div>
+</section>
+
+<!-- TEAM + PAYMENT DETAILS -->
+<section class="box hidden" id="details">
+  <h2>Team Details & Payment</h2>
+  <input id="team" placeholder="Team Name">
+  <input id="wp" placeholder="WhatsApp Number">
+
+  <div class="payment-card">
+    <h3>Payment QR & UPI</h3>
+    <img src="qr.png" class="qr">
+    <p>UPI ID: <b id="upi">9981977828@fam</b> <button onclick="copyUPI()">Copy</button></p>
+  </div>
+
+  <input type="file" id="ss" accept="image/*">
+  <div class="preview-container">
+    <p>Screenshot Preview:</p>
+    <img id="preview" class="preview hidden">
+  </div>
+
+  <p class="note">
+    <b>Refund Policy:</b> Entry fee is refundable only if the match is cancelled by organizers or if cancellation is requested ≥1 hour before match.
+  </p>
+
+  <button onclick="submitForm()">Submit Registration</button>
+</section>
+
+<!-- SUCCESS -->
+<section class="box hidden" id="success">
+  <h2 class="success">✅ Registration Submitted Successfully</h2>
+  <button onclick="goHome()">Go Home</button>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+<section class="box">
+  <h2>Admin Slot Dashboard</h2>
+  <div id="adminDashboard"></div>
+</section>
+
+<script src="script.js"></script>
+</body>
+     </html>
     <div class="card glow">
       <h3>💥 Entry Fee</h3>
       <p>₹20 / ₹25 / ₹30</p>
