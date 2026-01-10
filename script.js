@@ -2,47 +2,62 @@ let totalSlots = 12;
 let usedSlots = 0;
 let selectedFee = "";
 
+// Apna Apps Script Web App URL yahan daale
 const WEB_APP_URL =
   "https://script.google.com/macros/s/AKfycbziGZXjprT4TpyyTjUk8vDKeoq2VcEd9cwirx3H_QXgKy_wbvMAkXg3AprNv6Gky_LLIw/exec";
 
+// Update available slots
 function updateSlots() {
-  document.getElementById("slots").innerText = totalSlots - usedSlots;
-  if (totalSlots - usedSlots <= 0) {
-    document.getElementById("slotText").innerHTML = "❌ Slots Full";
+  const remaining = totalSlots - usedSlots;
+  const slotText = document.getElementById("slots");
+  const slotHeader = document.getElementById("slotText");
+
+  slotText.innerText = remaining;
+
+  if (remaining <= 0) {
+    slotHeader.innerHTML = "❌ Slots Full";
+    document.getElementById("details").classList.add("hidden");
   }
 }
 updateSlots();
 
+// Select entry fee
 function selectFee(fee) {
   selectedFee = fee;
   document.getElementById("details").classList.remove("hidden");
 }
 
+// Submit form
 function goPayment() {
-  let team = document.getElementById("team").value.trim();
-  let wp = document.getElementById("wp").value.trim();
+  const team = document.getElementById("team").value.trim();
+  const wp = document.getElementById("wp").value.trim();
 
   if (!team || !wp || !selectedFee) {
-    alert("Fill all details");
+    alert("Please fill all details!");
     return;
   }
 
   submitForm(team, wp);
 }
 
+// Send data to Apps Script
 function submitForm(team, wp) {
-  let btn = document.querySelector("#details button");
+  const btn = document.querySelector("#details button");
   btn.disabled = true;
   btn.innerText = "Submitting...";
 
-  let formData = new FormData();
-  formData.append("team", team);
-  formData.append("whatsapp", wp);
-  formData.append("fee", selectedFee);
+  const payload = {
+    team: team,
+    whatsapp: wp,
+    entryFee: selectedFee
+  };
 
   fetch(WEB_APP_URL, {
     method: "POST",
-    body: formData
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
   })
     .then(res => res.json())
     .then(data => {
@@ -51,15 +66,22 @@ function submitForm(team, wp) {
         updateSlots();
         document.getElementById("success").classList.remove("hidden");
         document.getElementById("details").classList.add("hidden");
+
+        // Clear inputs
+        document.getElementById("team").value = "";
+        document.getElementById("wp").value = "";
+        selectedFee = "";
       } else {
-        alert("Server error");
+        alert("Server error. Try again later.");
       }
+
       btn.disabled = false;
       btn.innerText = "Submit";
     })
     .catch(err => {
-      alert("Network Error");
+      alert("Network Error. Check your connection!");
       btn.disabled = false;
       btn.innerText = "Submit";
+      console.error(err);
     });
 }
