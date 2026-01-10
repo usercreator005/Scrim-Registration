@@ -40,7 +40,7 @@ function submitForm(team, wp) {
     screenshot: "Not Uploaded" // Screenshot temporarily skipped
   };
   
-  fetch("https://script.google.com/macros/s/AKfycbwp7sODzsVVTglllMek3QTzezGXIQjaa0yreEYwNTCQazPOlG4NB1LS42c9kg3V2PVHUw/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwBdWP8cHolkNLtdLIIkPvEPzOfq_wYET7xi70RwbQMlrM-b2tw9VS5IQ8t1KdHv3iKCA/exec", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
