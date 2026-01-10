@@ -11,7 +11,6 @@
 <body>
 
 <header>
-  <!-- Logo + Title -->
   <div class="logo-container">
     <img src="ffss.png" alt="FF Scrim Logo" class="logo">
     <h1>🎮 Free Fire Scrim Series 🎮</h1>
@@ -35,6 +34,71 @@
       <p>₹200 / ₹250 / ₹300</p>
     </div>
 
+    <div class="card">
+      <h3>🏆 Winning Prizes</h3>
+      <ul>
+        <li>🥇 1st: ₹80 / ₹100 / ₹120</li>
+        <li>🥈 2nd: ₹60 / ₹75 / ₹90</li>
+        <li>🥉 3rd: ₹40 / ₹50 / ₹60</li>
+        <li>🏅 4th: 1 Lobby Free Entry</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🕒 Match Schedule</h3>
+      <div class="time-box">
+        <span>12:00 PM</span>
+        <span>3:00 PM</span>
+        <span>9:00 PM</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="format">
+    🔘 <b>Format:</b> Best of 3 / 6 Matches (B2B)
+  </div>
+</section>
+
+<!-- ENTRY FEE SELECTION -->
+<section class="box">
+  <h2>Select Entry Fee</h2>
+  <button onclick="selectFee(20)">₹20 Entry</button>
+  <button onclick="selectFee(25)">₹25 Entry</button>
+  <button onclick="selectFee(30)">₹30 Entry</button>
+</section>
+
+<!-- TEAM DETAILS -->
+<section class="box hidden" id="details">
+  <h2>Team Details</h2>
+  <input id="team" placeholder="Team Name">
+  <input id="wp" placeholder="WhatsApp Number">
+  <button onclick="showPayment()">Next → Payment</button>
+</section>
+
+<!-- PAYMENT + QR + UPI -->
+<section class="box hidden" id="paymentBox">
+  <h2>Payment</h2>
+  <p>Entry Fee: <b id="payAmount"></b></p>
+  <p>UPI ID: <b id="upiId">yourupi@bank</b> <button onclick="copyUPI()">Copy UPI</button></p>
+  <img id="qrImage" src="qr.png" alt="QR Code" style="width:200px; margin-top:10px;">
+  <p style="font-size:14px; color:#facc15; margin-top:5px;">
+    Payment will be refunded only if the scrim is cancelled by the organizer.
+  </p>
+  <input type="file" id="screenshot" accept="image/*">
+  <div id="ssPreviewContainer"></div>
+  <button onclick="finalSubmit()">Submit Registration</button>
+</section>
+
+<!-- SUCCESS MESSAGE -->
+<section class="box hidden" id="success">
+  <h2 class="success">✅ Registration Submitted Successfully!</h2>
+  <button onclick="goHome()">Go to Home</button>
+</section>
+
+<script src="script.js"></script>
+</body>
+    </html>
     <div class="card">
       <h3>🏆 Winning Prizes</h3>
       <ul>
