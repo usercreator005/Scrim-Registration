@@ -61,9 +61,8 @@ function submitForm(team, wp) {
         btn.innerText = "Submit";
       }
     })
-    .catch(err => {
-      console.error(err);
-      alert("❌ Something went wrong. Try again");
+  .catch(err => {
+  alert("ERROR: " + err.message);
       btn.disabled = false;
       btn.innerText = "Submit";
     });
