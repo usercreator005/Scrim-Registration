@@ -1,5 +1,5 @@
 // ===== CONFIG =====
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzrELcygF9FZVkNAlQoRHSB4ZyWAUdPBjtiT1f2c-F9SM7-8H3WbgOH4qJQ2tglwobm/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwL6YjhW51zgghPrhXqFKUYsPcyp2E0eJ6GydQBR5P8ZmpXnKCcNvEPvdtAYRsoUrJL/exec";
 const MATCHES = ["12:00 PM", "3:00 PM", "9:00 PM"];
 const FEES = [20, 25, 30];
 const TOTAL_SLOTS = 12;
