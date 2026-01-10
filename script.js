@@ -27,7 +27,7 @@ function showPayment() {
   if (!team || !wp) { alert("❌ Fill all details"); return; }
   document.getElementById("payAmount").innerText = "₹" + selectedFee;
   document.getElementById("upiId").innerText = "9981977828@fam";
-  document.getElementById("qrImage").src = "/qr.png";
+  document.getElementById("qrImage").src = "qr.png";
   document.getElementById("paymentBox").classList.remove("hidden");
 }
 
