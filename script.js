@@ -2,9 +2,9 @@ let totalSlots = 12;
 let usedSlots = 0;
 let selectedFee = "";
 
-// Apna Apps Script Web App URL yahan daale
+// ✅ Apps Script Web App URL updated
 const WEB_APP_URL =
-  "https://script.google.com/macros/s/AKfycbziGZXjprT4TpyyTjUk8vDKeoq2VcEd9cwirx3H_QXgKy_wbvMAkXg3AprNv6Gky_LLIw/exec";
+  "https://script.google.com/macros/s/AKfycbzOaQ_nca2erCBpehIWwgUbvdGYBZQ9qc2PYfXEe2apYNbodbhrwil5RawSvUcUmurmAA/exec";
 
 // Update available slots
 function updateSlots() {
