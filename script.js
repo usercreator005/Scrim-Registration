@@ -26,14 +26,14 @@ function showPayment() {
   const wp = document.getElementById("wp").value.trim();
   if (!team || !wp) { alert("❌ Fill all details"); return; }
   document.getElementById("payAmount").innerText = "₹" + selectedFee;
-  document.getElementById("upiId").innerText = "yourupi@bank";
-  document.getElementById("qrImage").src = "qr.png";
+  document.getElementById("upiId").innerText = "9981977828@fam";
+  document.getElementById("qrImage").src = "/qr.png";
   document.getElementById("paymentBox").classList.remove("hidden");
 }
 
 // ===== COPY UPI =====
 function copyUPI() {
-  navigator.clipboard.writeText("yourupi@bank");
+  navigator.clipboard.writeText("9981977828@fam");
   alert("✅ UPI ID Copied");
 }
 
@@ -106,54 +106,4 @@ function resetAll() {
 function goHome() {
   resetAll();
   window.scrollTo({ top: 0, behavior: "smooth" });
-    }    return;
-  }
-
-  submitForm(team, wp);
-}
-
-// Send data to Apps Script
-function submitForm(team, wp) {
-  const btn = document.querySelector("#details button");
-  btn.disabled = true;
-  btn.innerText = "Submitting...";
-
-  const payload = {
-    team: team,
-    whatsapp: wp,
-    entryFee: selectedFee
-  };
-
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.status === "success") {
-        usedSlots++;
-        updateSlots();
-        document.getElementById("success").classList.remove("hidden");
-        document.getElementById("details").classList.add("hidden");
-
-        // Clear inputs
-        document.getElementById("team").value = "";
-        document.getElementById("wp").value = "";
-        selectedFee = "";
-      } else {
-        alert("Server error. Try again later.");
-      }
-
-      btn.disabled = false;
-      btn.innerText = "Submit";
-    })
-    .catch(err => {
-      alert("Network Error. Check your connection!");
-      btn.disabled = false;
-      btn.innerText = "Submit";
-      console.error(err);
-    });
 }
