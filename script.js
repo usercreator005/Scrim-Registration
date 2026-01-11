@@ -7,10 +7,11 @@ const FEES = [20, 25, 30];
 const TOTAL_SLOTS = 12;
 
 /**************** SLOT STORAGE ****************/
+// Array structure to allow .includes()
 let usedSlots = JSON.parse(localStorage.getItem("usedSlots")) || {
-  "12:00 PM": { 20: 0, 25: 0, 30: 0 },
-  "3:00 PM": { 20: 0, 25: 0, 30: 0 },
-  "9:00 PM": { 20: 0, 25: 0, 30: 0 }
+  "12:00 PM": { 20: [], 25: [], 30: [] },
+  "3:00 PM": { 20: [], 25: [], 30: [] },
+  "9:00 PM": { 20: [], 25: [], 30: [] }
 };
 
 let selectedMatch = null;
@@ -36,13 +37,13 @@ function selectMatch(match) {
 /**************** FEE SELECT ****************/
 function selectFee(fee) {
   if (!selectedMatch) {
-    alert("Select match first");
+    alert("❌ Select match first");
     return;
   }
   
-  const left = TOTAL_SLOTS - usedSlots[selectedMatch][fee];
+  const left = TOTAL_SLOTS - usedSlots[selectedMatch][fee].length;
   if (left <= 0) {
-    alert(`₹${fee} lobby full`);
+    alert(`❌ ₹${fee} lobby full`);
     return;
   }
   
@@ -55,7 +56,7 @@ function selectFee(fee) {
 function updateSlotText() {
   const el = document.getElementById("slotText");
   if (selectedMatch && selectedFee) {
-    const left = TOTAL_SLOTS - usedSlots[selectedMatch][selectedFee];
+    const left = TOTAL_SLOTS - usedSlots[selectedMatch][selectedFee].length;
     el.innerHTML = `Match: ${selectedMatch} | Fee: ₹${selectedFee} | Slots Left: <b>${left}</b>`;
   } else if (selectedMatch) {
     el.innerText = `Match selected: ${selectedMatch}`;
@@ -69,7 +70,7 @@ function updateFeeSlots() {
   FEES.forEach(fee => {
     const span = document.getElementById("slot" + fee);
     if (span && selectedMatch) {
-      span.innerText = `${TOTAL_SLOTS - usedSlots[selectedMatch][fee]} slots left`;
+      span.innerText = `${TOTAL_SLOTS - usedSlots[selectedMatch][fee].length} slots left`;
     }
   });
 }
@@ -77,7 +78,7 @@ function updateFeeSlots() {
 /**************** COPY UPI ****************/
 function copyUPI() {
   navigator.clipboard.writeText(document.getElementById("upi").innerText);
-  alert("UPI copied ✅");
+  alert("✅ UPI copied");
 }
 
 /**************** IMAGE PREVIEW ****************/
@@ -94,7 +95,7 @@ document.getElementById("ss").addEventListener("change", e => {
   reader.readAsDataURL(file);
 });
 
-/**************** SUBMIT FORM ****************/
+/**************** SUBMIT ****************/
 function submitForm() {
   const team = document.getElementById("team").value.trim();
   const wp = document.getElementById("wp").value.trim();
@@ -105,11 +106,25 @@ function submitForm() {
     return;
   }
   
-  // Increment slot
-  usedSlots[selectedMatch][selectedFee]++;
+  // Check duplicate team for same match (any fee)
+  let allTeamsInMatch = [];
+  FEES.forEach(fee => {
+    allTeamsInMatch = allTeamsInMatch.concat(usedSlots[selectedMatch][fee]);
+  });
+  
+  if (allTeamsInMatch.includes(team)) {
+    alert("❌ Team already registered for this match (any fee)");
+    return;
+  }
+  
+  // Add team to selected fee
+  usedSlots[selectedMatch][selectedFee].push(team);
   localStorage.setItem("usedSlots", JSON.stringify(usedSlots));
   
+  // Send to Telegram
   sendTelegram(team, wp, ss);
+  
+  // Show success & update dashboard
   showSuccess();
   updateAdminDashboard();
 }
@@ -118,27 +133,15 @@ function submitForm() {
 function sendTelegram(team, wp, ss) {
   const form = new FormData();
   form.append("chat_id", CHAT_ID);
-  form.append(
-    "caption",
+  form.append("caption",
     `🔥 NEW SCRIM ENTRY\n\n🎮 Team: ${team}\n📱 WhatsApp: ${wp}\n🕒 Match: ${selectedMatch}\n💰 Fee: ₹${selectedFee}`
   );
   form.append("photo", ss);
   
   fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-      method: "POST",
-      body: form
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (!data.ok) {
-        alert("Telegram Error: " + data.description);
-        console.error(data);
-      }
-    })
-    .catch(err => {
-      alert("Telegram request failed");
-      console.error(err);
-    });
+    method: "POST",
+    body: form
+  }).catch(() => alert("❌ Telegram failed"));
 }
 
 /**************** SUCCESS ****************/
@@ -155,7 +158,6 @@ function goHome() {
   selectedMatch = null;
   selectedFee = null;
   updateSlotText();
-  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 /**************** ADMIN DASH ****************/
@@ -167,11 +169,13 @@ function updateAdminDashboard() {
     const box = document.createElement("div");
     box.className = "admin-box";
     box.innerHTML = `<b>${match}</b><br>
-      ₹20: ${usedSlots[match][20]} / ${TOTAL_SLOTS}<br>
-      ₹25: ${usedSlots[match][25]} / ${TOTAL_SLOTS}<br>
-      ₹30: ${usedSlots[match][30]} / ${TOTAL_SLOTS}`;
+      ₹20: ${usedSlots[match][20].length} / ${TOTAL_SLOTS}<br>
+      ₹25: ${usedSlots[match][25].length} / ${TOTAL_SLOTS}<br>
+      ₹30: ${usedSlots[match][30].length} / ${TOTAL_SLOTS}`;
     dash.appendChild(box);
   });
 }
 
+// Initialize
 updateAdminDashboard();
+updateSlotText();
