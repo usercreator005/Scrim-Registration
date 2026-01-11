@@ -1,5 +1,5 @@
 /**************** CONFIG ****************/
-const SCRIPT_URL = "https://ffss-35j.pages.dev";
+const SCRIPT_URL = "https://ffss-35j.pages.dev/api";
 
 const MATCHES = ["12:00 PM", "3:00 PM", "9:00 PM"];
 const FEES = [20, 25, 30];
