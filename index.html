@@ -10,10 +10,46 @@
 
 <header>
   <img src="ffss.png" alt="Logo" class="logo">
-  <h1>Free Fire Scrim Series 🎮</h1>
+  <h1>🎮 Free Fire Scrim Series 🎮</h1>
   <button class="dark-btn" onclick="toggleDarkMode()">🌙 Dark Mode</button>
   <p id="slotText">Select match time to continue</p>
 </header>
+
+<!-- SCRIM INFO -->
+<section class="scrim-details box">
+  <h2>🎮 FREE FIRE SCRIM SERIES 🎮</h2>
+  <p class="tagline">Play • Win • Repeat</p>
+  <div class="grid">
+    <div class="card glow">
+      <h3>💥 Entry Fee</h3>
+      <p>₹20 / ₹25 / ₹30</p>
+    </div>
+    <div class="card glow">
+      <h3>💰 Prize Pool</h3>
+      <p>₹200 / ₹250 / ₹300</p>
+    </div>
+    <div class="card">
+      <h3>🏆 Winning Prizes</h3>
+      <ul>
+        <li>🥇 1st: ₹80 / ₹100 / ₹120</li>
+        <li>🥈 2nd: ₹60 / ₹75 / ₹90</li>
+        <li>🥉 3rd: ₹40 / ₹50 / ₹60</li>
+        <li>🏅 4th: 1 Lobby Free Entry</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🕒 Match Schedule</h3>
+      <div class="time-box">
+        <span>12:00 PM</span>
+        <span>3:00 PM</span>
+        <span>9:00 PM</span>
+      </div>
+    </div>
+  </div>
+  <div class="format">
+    🔘 <b>Format:</b> Best of 3 / 6 Matches (B2B)
+  </div>
+</section>
 
 <!-- MATCH SELECTION -->
 <section class="box">
@@ -35,7 +71,7 @@
   </div>
 </section>
 
-<!-- TEAM + PAYMENT DETAILS -->
+<!-- TEAM DETAILS -->
 <section class="box hidden" id="details">
   <h2>Team Details & Payment</h2>
   <input id="team" placeholder="Team Name">
@@ -56,10 +92,16 @@
   <button onclick="submitForm()">Submit Registration</button>
 </section>
 
-<!-- SUCCESS -->
+<!-- SUCCESS MESSAGE -->
 <section class="box hidden" id="success">
-  <h2 class="success">✅ Registration Submitted Successfully</h2>
+  <h2 class="success">✅ Registration Submitted Successfully!</h2>
   <button onclick="goHome()">Go Home</button>
+</section>
+
+<!-- RECENT ENTRIES -->
+<section class="box">
+  <h2>Recent Scrim Registrations</h2>
+  <div id="scrimEntries"></div>
 </section>
 
 <!-- ADMIN DASHBOARD -->
