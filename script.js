@@ -1,13 +1,12 @@
 /**************** CONFIG ****************/
-const BOT_TOKEN = "8590731449:AAG6gS62b_H1ARggfATZyWBiOEFfKLSobK8";
-const CHAT_ID = "6165927254";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmrG62gWAaEVS2wWOe0SxBhJbZefwR9engVqSIIXrMcE5cQA18WJu9ZsE85R02K3Me5Q/exec";
 
 const MATCHES = ["12:00 PM", "3:00 PM", "9:00 PM"];
 const FEES = [20, 25, 30];
 const TOTAL_SLOTS = 12;
 
 /**************** SLOT STORAGE ****************/
-// Array structure to allow .includes()
+// Store booked teams in localStorage for frontend slot tracking
 let usedSlots = JSON.parse(localStorage.getItem("usedSlots")) || {
   "12:00 PM": { 20: [], 25: [], 30: [] },
   "3:00 PM": { 20: [], 25: [], 30: [] },
@@ -77,36 +76,43 @@ function updateFeeSlots() {
 
 /**************** COPY UPI ****************/
 function copyUPI() {
-  navigator.clipboard.writeText(document.getElementById("upi").innerText);
-  alert("✅ UPI copied");
+  const upiText = document.getElementById("upi")?.innerText || "";
+  if (upiText) {
+    navigator.clipboard.writeText(upiText);
+    alert("✅ UPI copied");
+  } else {
+    alert("⚠️ No UPI found");
+  }
 }
 
 /**************** IMAGE PREVIEW ****************/
-document.getElementById("ss").addEventListener("change", e => {
+document.getElementById("ss")?.addEventListener("change", e => {
   const file = e.target.files[0];
   if (!file) return;
   
   const reader = new FileReader();
   reader.onload = () => {
     const img = document.getElementById("preview");
-    img.src = reader.result;
-    img.classList.remove("hidden");
+    if (img) {
+      img.src = reader.result;
+      img.classList.remove("hidden");
+    }
   };
   reader.readAsDataURL(file);
 });
 
-/**************** SUBMIT ****************/
+/**************** FORM SUBMISSION ****************/
 function submitForm() {
   const team = document.getElementById("team").value.trim();
   const wp = document.getElementById("wp").value.trim();
-  const ss = document.getElementById("ss").files[0];
+  const ssFile = document.getElementById("ss").files[0];
   
-  if (!team || !wp || !ss || !selectedMatch || !selectedFee) {
+  if (!team || !wp || !ssFile || !selectedMatch || !selectedFee) {
     alert("❌ Fill all details");
     return;
   }
   
-  // Check duplicate team for same match (any fee)
+  // FRONTEND DUPLICATE CHECK
   let allTeamsInMatch = [];
   FEES.forEach(fee => {
     allTeamsInMatch = allTeamsInMatch.concat(usedSlots[selectedMatch][fee]);
@@ -117,31 +123,42 @@ function submitForm() {
     return;
   }
   
-  // Add team to selected fee
-  usedSlots[selectedMatch][selectedFee].push(team);
-  localStorage.setItem("usedSlots", JSON.stringify(usedSlots));
+  const reader = new FileReader();
+  reader.onload = () => {
+    const payload = {
+      team,
+      whatsapp: wp,
+      match: selectedMatch,
+      entryFee: selectedFee,
+      screenshot: reader.result
+    };
+    
+    fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === "ok") {
+          alert("✅ Registration successful!");
+          
+          // UPDATE LOCAL SLOTS
+          usedSlots[selectedMatch][selectedFee].push(team);
+          localStorage.setItem("usedSlots", JSON.stringify(usedSlots));
+          
+          showSuccess();
+          updateSlotText();
+          updateFeeSlots();
+          updateAdminDashboard();
+        } else {
+          alert("❌ " + res.message);
+        }
+      })
+      .catch(err => alert("❌ Network error: " + err));
+  };
   
-  // Send to Telegram
-  sendTelegram(team, wp, ss);
-  
-  // Show success & update dashboard
-  showSuccess();
-  updateAdminDashboard();
-}
-
-/**************** TELEGRAM SEND ****************/
-function sendTelegram(team, wp, ss) {
-  const form = new FormData();
-  form.append("chat_id", CHAT_ID);
-  form.append("caption",
-    `🔥 NEW SCRIM ENTRY\n\n🎮 Team: ${team}\n📱 WhatsApp: ${wp}\n🕒 Match: ${selectedMatch}\n💰 Fee: ₹${selectedFee}`
-  );
-  form.append("photo", ss);
-  
-  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-    method: "POST",
-    body: form
-  }).catch(() => alert("❌ Telegram failed"));
+  reader.readAsDataURL(ssFile);
 }
 
 /**************** SUCCESS ****************/
@@ -152,19 +169,24 @@ function showSuccess() {
 
 function goHome() {
   document.getElementById("success").classList.add("hidden");
-  ["team", "wp", "ss"].forEach(id => document.getElementById(id).value = "");
-  document.getElementById("preview").classList.add("hidden");
+  ["team", "wp", "ss"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+  const preview = document.getElementById("preview");
+  if (preview) preview.classList.add("hidden");
   
   selectedMatch = null;
   selectedFee = null;
   updateSlotText();
 }
 
-/**************** ADMIN DASH ****************/
+/**************** ADMIN DASHBOARD ****************/
 function updateAdminDashboard() {
   const dash = document.getElementById("adminDashboard");
-  dash.innerHTML = "";
+  if (!dash) return;
   
+  dash.innerHTML = "";
   MATCHES.forEach(match => {
     const box = document.createElement("div");
     box.className = "admin-box";
@@ -176,6 +198,7 @@ function updateAdminDashboard() {
   });
 }
 
-// Initialize
+/**************** INITIALIZE ****************/
 updateAdminDashboard();
 updateSlotText();
+updateFeeSlots();
