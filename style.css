@@ -6,35 +6,48 @@ body{
   margin:0;
   padding:0;
 }
-.dark{
-  background:#121212;
-  color:#f0f0f0;
-}
-header{
-  text-align:center;
-  padding:20px;
-  background:#ffdd00;
-}
+.dark{ background:#121212; color:#f0f0f0; }
+header{ text-align:center; padding:20px; background:#ffdd00; }
 .dark header{background:#333;}
 .logo{width:50px; display:block; margin:0 auto;}
 h1{margin:10px 0;}
-.dark-btn{
-  position:absolute;
-  top:20px;
-  right:20px;
-  padding:5px 10px;
-  cursor:pointer;
-}
+.dark-btn{position:absolute; top:20px; right:20px; padding:5px 10px; cursor:pointer;}
 
 /* ===== BOXES ===== */
-.box{
-  background:#fff;
-  margin:20px;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.2);
-}
+.box{ background:#fff; margin:20px; padding:20px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.2);}
 .dark .box{background:#1e1e1e; box-shadow:0 2px 6px rgba(255,255,255,0.1);}
+.box h2{margin-bottom:15px;}
+
+/* ===== CARDS ===== */
+.card-grid{ display:flex; gap:10px; flex-wrap:wrap; }
+.card{ flex:1; min-width:100px; padding:15px; text-align:center; border-radius:10px; background:#ffeb3b; cursor:pointer; transition:0.2s; }
+.card:hover{transform:scale(1.05); box-shadow:0 0 10px #ff9800;}
+.dark .card{background:#444; color:#fff;}
+
+/* ===== INPUTS ===== */
+input{ width:100%; padding:10px; margin:10px 0; border-radius:5px; border:1px solid #ccc; }
+.dark input{background:#333; border:1px solid #666; color:#fff;}
+
+/* ===== QR + PREVIEW ===== */
+.qr{width:150px; display:block; margin:10px 0;}
+.preview{width:200px; display:block; margin:10px 0;}
+.hidden{display:none;}
+
+/* ===== ADMIN DASH ===== */
+.admin-box{ background:#ffd54f; margin:10px 0; padding:10px; border-radius:8px;}
+.dark .admin-box{background:#333; color:#fff;}
+.admin-box p{margin:5px 0;}
+
+/* ===== BUTTONS ===== */
+button{ padding:10px 15px; border:none; border-radius:5px; cursor:pointer; background:#ff9800; color:#fff; font-weight:bold; transition:0.2s; }
+button:hover{background:#e68900;}
+.dark button{background:#ffa500; color:#000;}
+
+/* ===== SCRIM DETAILS ===== */
+.scrim-details{margin:20px; text-align:center;}
+.scrim-details .grid{display:flex; gap:10px; flex-wrap:wrap; justify-content:center;}
+.scrim-details .card{flex:1; min-width:150px; padding:15px; border-radius:10px; background:#ffeb3b; margin:5px;}
+.scrim-details .card.glow{box-shadow:0 0 15px #ff9800;}.dark .box{background:#1e1e1e; box-shadow:0 2px 6px rgba(255,255,255,0.1);}
 .box h2{margin-bottom:15px;}
 
 /* ===== CARDS ===== */
