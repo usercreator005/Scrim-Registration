@@ -1,5 +1,5 @@
 /**************** CONFIG ****************/
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmrG62gWAaEVS2wWOe0SxBhJbZefwR9engVqSIIXrMcE5cQA18WJu9ZsE85R02K3Me5Q/exec";
+const SCRIPT_URL = "https://ffss-35j.pages.dev";
 
 const MATCHES = ["12:00 PM", "3:00 PM", "9:00 PM"];
 const FEES = [20, 25, 30];
