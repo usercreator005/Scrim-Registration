@@ -94,3 +94,16 @@ button{
 }
 button:hover{background:#e68900;}
 .dark button{background:#ffa500; color:#000;}
+.scrim-entry{
+  padding:8px;
+  margin:5px 0;
+  background:#ffeb3b;
+  border-radius:5px;
+}
+.dark .scrim-entry{
+  background:#444;
+  color:#fff;
+}
+.glow{box-shadow:0 0 8px #ff9800;}
+.grid{display:flex; gap:10px; flex-wrap:wrap;}
+.time-box span{margin-right:10px; font-weight:bold;}
